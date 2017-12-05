@@ -1,5 +1,5 @@
 [options]
-addons_path = /home/saraju/GBT/ABC/odoo/odoo/addons,/home/saraju/GBT/ABC/odoo/addons
+addons_path = /home/saraju/GBT/ABC/odoo/odoo/addons,/home/saraju/GBT/ABC/odoo/addons,/home/saraju/GBT/ABC/addons
 admin_passwd = admin
 csv_internal_sep = ,
 data_dir = /home/saraju/.local/share/Odoo
@@ -10,7 +10,7 @@ db_password = False
 db_port = False
 db_template = template1
 db_user = False
-dbfilter = .*
+dbfilter = gbt_abc_
 demo = {}
 email_from = False
 geoip_database = /usr/share/GeoIP/GeoLiteCity.dat
