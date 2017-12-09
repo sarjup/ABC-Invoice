@@ -4,4 +4,65 @@
         name = "Vendor"
         res_model = "abc.vendors"
         view_mode = "tree,form" />
+    
+    <record id= "view_tree_abc_vendor" model = "ir.ui.view">
+        <field name = "name">Vendor</field>
+        <field name = "model">abc.vendors</field>
+        <field name = "arch" type = "xml">
+            <tree>
+                 <field name = "name" />
+                <field name = "address" />
+                <field name = "contact" />
+                <field name = "email" />
+                <field name = "type" />
+            </tree>
+        </field>
+    </record>
+
+     <record id = "view_form_abc_vendor" model = "ir.ui.view">
+        <field name = "name">Vendor</field>
+        <field name = "model">abc.vendors</field>
+        <field name = "arch" type = "xml">
+            <form string = "Vendor Form">
+                <sheet>
+                    <group name = "info">
+                        <group name = "name">
+                            <field name = "name" />
+                        </group>
+                        <group name = "addr">
+                            <field name = "address" />
+                        </group>
+                    </group>
+                    <group name = "contact">
+                        <group name="email">
+                            <field name = "email" />
+                        </group>
+                        <group name = "phone">
+                            <field name = "contact" />
+                        </group>
+                    </group>
+                    <group colSpan = "5" name = "type">
+                        <group col = "2">
+                            <field name = "type" />
+                        </group>
+                    </group>
+                    <field name = "active" readonly = "1" />
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id = "view_search_abc_vendor" model = "ir.ui.view">
+        <field name = "name">Vendor Search</field>
+        <field name = "model">abc.vendors</field>
+        <field name = "arch" type = "xml">
+            <search>
+                <field name = "name" />
+                <filter name = "normal" string = "Normal" domain = "[('type','=','normal')]" />
+                <filter name = "reguler" string = "Reguler" domain = "[('type','=','reguler')]" />
+                <filter name = "special" string = "Special" domain = "[('type','=','special')]" />
+            </search>
+        </field>
+    </record>
+
 </odoo>

@@ -10,7 +10,7 @@ class Customers(models.Model):
     contact = fields.Char(string="Phone", required = True)
     type = fields.Selection([
         ('normal','Normal'),
-        ('reeguler','Reguler'),
+        ('reguler','Reguler'),
         ('special','Special')],
         string = "Customer Type",
         default = "normal")
@@ -25,6 +25,12 @@ class Vendors(models.Model):
     address = fields.Char(string = "Address")
     email = fields.Char(string = "Email")
     contact = fields.Char(string="Phone", required = True)
+    type = fields.Selection([
+        ('normal','Normal'),
+        ('reguler','Reguler'),
+        ('special','Special')],
+        string = "Customer Type",
+        default = "normal")
     active = fields.Boolean(string = "Active?", default = True)
 
 
