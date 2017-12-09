@@ -1,0 +1,7 @@
+<odoo>
+    <!-- Action to open Vendor list -->
+    <act_window id = "action_abc_vendor"
+        name = "Vendor"
+        res_model = "abc.vendors"
+        view_mode = "tree,form" />
+</odoo>

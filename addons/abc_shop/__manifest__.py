@@ -10,6 +10,7 @@
     'data':[
         'views/abc_product.xml',
         'views/abc_customer.xml',
+        'views/abc_vendor.xml',
         'views/abc_menu.xml',
     ],
     'application':True,

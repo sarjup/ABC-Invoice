@@ -8,6 +8,12 @@ class Customers(models.Model):
     address = fields.Char(string = "Address")
     email = fields.Char(string = "Email")
     contact = fields.Char(string="Phone", required = True)
+    type = fields.Selection([
+        ('normal','Normal'),
+        ('reeguler','Reguler'),
+        ('special','Special')],
+        string = "Customer Type",
+        default = "normal")
     active = fields.Boolean(string = "Active?", default = True)
 
 
@@ -31,9 +37,9 @@ class Products(models.Model):
     type = fields.Selection([
         ('consumable','Consumable'),
         ('service','Service')
-    ],
-    string = 'Product Type',
-    default = 'consumable')
+        ],
+        string = 'Product Type',
+        default = 'consumable')
     qty_product = fields.Float(string="Quantity")
     list_price = fields.Float(string = "Sale Price")
     standard_price = fields.Float(string="Cost Price")
