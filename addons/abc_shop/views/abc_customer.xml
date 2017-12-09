@@ -1,0 +1,18 @@
+ <!-- <? xml version = "1.0" ?> -->
+ <odoo>
+    <data>
+    <!-- Action to open Customers list -->
+    <act_window id = "action_abc_customers"
+        name = "Customers"
+        res_model = "abc.customers"
+        view_mode = "tree,form" />
+
+    <!-- Action to open Vendor list -->
+    <act_window id = "action_abc_vendor"
+        name = "Vendor"
+        res_model = "abc.vendors"
+        view_mode = "tree,form" />
+    </data>
+ </odoo>
+ 
+   

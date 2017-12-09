@@ -1,0 +1,79 @@
+<?xml version = "1.0" ?>
+<odoo>
+    <data>
+    <!-- <record id = "action_abc_products" model = "ir.action.act_window">
+        <field name = "name" >Products</field>
+        <field name = "res_model" >abc.products</field>
+        <field name = "view_mode" >tree,form</field>
+        <field name = "" ></field>
+    </record> -->
+        <!-- Action to open products list -->
+        <act_window id = "action_abc_product"
+            name = "Products"
+            res_model = "abc.products"
+            view_mode = "tree,form" /> 
+
+        <record id = "view_tree_abc_product" model = "ir.ui.view" >
+            <field name = "name">Products</field>
+            <field name = "model">abc.products</field>
+            <field name = "arch" type = "xml">
+                <tree>
+                    <field name = "name" />
+                    <field name = "list_price" />
+                    <field name = "standard_price" />
+                    <field name = "qty_product" />
+                    <field name = "type" />
+                </tree>
+            </field>
+        </record>
+
+        <record id = "view_form_abc_product" model = "ir.ui.view" >
+            <field name = "name">Products</field>
+            <field name = "model">abc.products</field>
+            <field name = "arch" type = "xml">
+                <form string = "Product">
+                    <sheet>
+                        <group colSpan = "5" name = "description">
+                            <group col = "2" name="name">
+                                <field name = "name" />
+                            </group>
+                            <group col = "2" name = "description">
+                                <field name = "description" />
+                            </group>
+                            
+                        </group>
+                        <group name = "price" colSpan = "4">
+                            <group name = "sale_price" col = "2">
+                                <field name = "list_price" />
+                            </group>
+                            <group name= "cost_price" col="2">
+                                <field name = "standard_price" />
+                            </group>
+                        </group> 
+                        <group name = "specification" colSpan = "5">
+                            <group name="quantity" col = "2">
+                                <field name = "qty_product" readonly = "1" />
+                            </group>
+                            <group col = "3" name = "type">
+                                <field name = "type" />
+                            </group>
+                        </group> 
+                        <field name = "active" readonly = "1" invisible = "1" />
+                    </sheet>
+                </form>            
+            </field>
+        </record>
+        
+        <record id = "view_search_abc_product" model = "ir.ui.view">
+            <field name = "name">Product Search</field>
+            <field name = "model">abc.products</field>
+            <field name = "arch" type = "xml">
+                <search>
+                    <field name = "name" />
+                    <filter name = "consumable_product" string = "Consumable" domain = "[('type','=','consumable')]" />
+                    <filter name = "service_product" string = "Service" domain = "[('type','=','service')]" />
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

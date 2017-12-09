@@ -27,12 +27,14 @@ class Products(models.Model):
     _description = "this model specifies the products for the ABC Shop"
 
     name = fields.Char(string = "Product Name", required = True)
+    description = fields.Text('Description')
     type = fields.Selection([
         ('consumable','Consumable'),
         ('service','Service')
     ],
     string = 'Product Type',
     default = 'consumable')
+    qty_product = fields.Float(string="Quantity")
     list_price = fields.Float(string = "Sale Price")
     standard_price = fields.Float(string="Cost Price")
     active = fields.Boolean(string = "Active?", default = True)

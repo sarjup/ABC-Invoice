@@ -1,0 +1,23 @@
+<?xml version = "1.0" ?>
+<odoo>
+    <data>
+        <!-- top menu -->
+        <menuitem id = "abc_shop.main_menu" name = "ABC SHOP" />
+        
+        <!-- side bar Sale menu -->
+        <menuitem id = "abc_shop.menu_sale" name = "Sale" parent = "abc_shop.main_menu" />
+        <!-- side menu product -->
+        <menuitem id = "abc_shop.menu_product" name= "Products"
+            parent = "abc_shop.menu_sale" action = "action_abc_product" />
+        <!-- side menu customers -->
+        <menuitem id = "abc_shop.menu_customer" name = "Customers"
+            parent = "abc_shop.menu_sale" action = "action_abc_customers" />
+
+        <!-- side bar purchase menu -->
+        <menuitem id = "abc_shop.menu_purchase" name = "Purchase" parent = "abc_shop.main_menu" />
+        <!-- side menu vendor -->
+        <menuitem id = "abc_shop.menu_vendor" name = "Vendor" 
+            parent = "abc_shop.menu_purchase" action = "action_abc_vendor" />
+        
+    </data>
+</odoo>
