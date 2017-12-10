@@ -50,3 +50,15 @@ class Products(models.Model):
     list_price = fields.Float(string = "Sale Price")
     standard_price = fields.Float(string="Cost Price")
     active = fields.Boolean(string = "Active?", default = True)
+
+
+class PurchaseInvoice(models.Model):
+    _name = 'abc.purchase.bill'
+    _description = 'Product Purchase Wizard'
+
+    number = fields.Char(string = 'Bill No.')
+    vendor_ids = fields.Many2one('abc.vendors',string = 'Vendor')
+    product_ids = fields.Many2many('abc.products', string = 'Product')
+    date_purchase = fields.Date(string='Date')
+    user_id = fields.Many2one('res.users',string = 'Entry Person')
+    amount_total = fields.Float(string = 'Total')

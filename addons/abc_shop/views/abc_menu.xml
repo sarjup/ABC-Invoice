@@ -6,6 +6,7 @@
         
         <!-- side bar Sale menu -->
         <menuitem id = "abc_shop.menu_sale" name = "Sale" parent = "abc_shop.main_menu" />
+        <menuitem id = "abc_shop.menu_customer_invoice" name = "Customer Invoice" parent = 'abc_shop.menu_sale' />
         <!-- side menu product -->
         <menuitem id = "abc_shop.menu_product" name= "Products"
             parent = "abc_shop.menu_sale" action = "action_abc_product" />
@@ -15,6 +16,9 @@
 
         <!-- side bar purchase menu -->
         <menuitem id = "abc_shop.menu_purchase" name = "Purchase" parent = "abc_shop.main_menu" />
+        <!-- side menu vendor bill -->
+        <menuitem id= "abc_shop.menu_vendor_bill" name = "Vendor Bill"
+            parent = "abc_shop.menu_purchase" action = "action_abc_vendor_bill" />
         <!-- side menu vendor -->
         <menuitem id = "abc_shop.menu_vendor" name = "Vendor" 
             parent = "abc_shop.menu_purchase" action = "action_abc_vendor" />

@@ -1,0 +1,53 @@
+<odoo>
+    <act_window id = "action_abc_vendor_bill"
+        name = "Vendor Bill"
+        res_model = "abc.purchase.bill"
+        view_mode = "tree,form" />
+
+    <record id = "view_tree_vendor_bill" model = "ir.ui.view">
+        <field name = "name">Vendor Bills</field>
+        <field name = "model">abc.purchase.bill</field>
+        <field name = "arch" type = 'xml'>
+            <tree>
+                <field name = "vendor_ids" />
+                <field name = "number" />
+                <field name = "date_purchase" />
+                <field name = "user_id" />
+                <field name = "amount_total" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_form_vendor_bill" model = "ir.ui.view">
+        <field name = "name">Vendor Bill Form</field>
+        <field name = "model">abc.purchase.bill</field>
+        <field name = "arch" type = "xml">
+            <form string="Invoice">
+                <sheet string = "Invoice">
+                    <group>
+                        <group>
+                            <field string="Vendor" name= "vendor_ids" />
+                            <field name = "user_id" />
+                        </group>
+                        <group>
+                            <field name = "date_purchase" />
+                        </group>
+                    </group>
+                    <notebook colSpan = "4">
+                        <page string = "Product Detail">
+                            <field name = "product_ids" mode = "tree">
+                                <tree String = "Product detail" editable = "bottom">
+                                    <field name = "name" />
+                                    <field name = "description" />
+                                    <field name = "qty_product" />
+                                    <field name = "standard_price" string = "Cost Price" />
+                                    <field name = "list_price" string = "Sale Price" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
