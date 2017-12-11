@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, api
 
 class Customers(models.Model):
     _name = "abc.customers"
@@ -52,13 +52,43 @@ class Products(models.Model):
     active = fields.Boolean(string = "Active?", default = True)
 
 
+
 class PurchaseInvoice(models.Model):
     _name = 'abc.purchase.bill'
     _description = 'Product Purchase Wizard'
 
-    number = fields.Char(string = 'Bill No.')
-    vendor_ids = fields.Many2one('abc.vendors',string = 'Vendor')
-    product_ids = fields.Many2many('abc.products', string = 'Product')
+    number = fields.Char(string = 'Bill No.', required = True)
+    vendor_ids = fields.Many2one('abc.vendors',string = 'Vendor', required = True)
+    bill_line_ids = fields.One2many('abc.product.bill.line', 'purchase_id',string = 'Bill Line')
     date_purchase = fields.Date(string='Date')
     user_id = fields.Many2one('res.users',string = 'Entry Person')
     amount_total = fields.Float(string = 'Total')
+    display_name = fields.Char(compute = '_compute_display_name')
+
+    @api.depends('number')
+    def _compute_display_name(self):
+        for vendor_bill in self:
+            vendor_bill.display_name = vendor_bill.number
+
+
+
+class ProductInvoiceLine(models.Model):
+    _name = "abc.product.bill.line"
+    _description = "Product Purchase invoice line"
+
+    product_ids = fields.Many2one('abc.products', required = True, string = "Product")
+    description = fields.Char(string = "Description", required = True)
+    amount_product = fields.Float(string = "Amount")
+    amount_cost = fields.Float(string = "Cost Price")
+    amount_sale = fields.Float(string = "Sale Price")
+    quantity_product = fields.Float(string = "Quantity")
+    purchase_id = fields.Many2one('abc.purchase.bill', string = "Purchase")
+
+    @api.onchange('product_ids')
+    def _onchange_product_id(self):
+        product = self.product_ids
+
+        self.description = product.description
+        self.amount_cost = product.standard_price
+        self.amount_sale = product.list_price
+
