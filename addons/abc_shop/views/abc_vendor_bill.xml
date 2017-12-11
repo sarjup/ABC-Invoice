@@ -46,10 +46,14 @@
                                     <field name = "amount_cost" />
                                     <field name = "amount_sale"  /> 
                                     <field name = "quantity_product" />
-                                    <field name = "amount_product" />
+                                    <field name = "amount_product" type = "object" readonly ="1"  />
                                     <!-- i want amount of product hear but there is no ammount field in my ptoduct model -->
                                 </tree>
                             </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                
+                                <field name="amount_total" class="oe_subtotal_footer_separator" readonly = "1" />
+                            </group>
                         </page>
                     </notebook>
                 </sheet>

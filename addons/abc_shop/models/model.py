@@ -59,16 +59,22 @@ class PurchaseInvoice(models.Model):
 
     number = fields.Char(string = 'Bill No.', required = True)
     vendor_ids = fields.Many2one('abc.vendors',string = 'Vendor', required = True)
-    bill_line_ids = fields.One2many('abc.product.bill.line', 'purchase_id',string = 'Bill Line')
+    bill_line_ids = fields.One2many('abc.product.bill.line', 'purchase_id', string = 'Bill Line')
     date_purchase = fields.Date(string='Date')
     user_id = fields.Many2one('res.users',string = 'Entry Person')
-    amount_total = fields.Float(string = 'Total')
+    amount_total = fields.Float(string = 'Total', compute = '_compute_amount', store = True )
     display_name = fields.Char(compute = '_compute_display_name')
 
     @api.depends('number')
     def _compute_display_name(self):
         for vendor_bill in self:
             vendor_bill.display_name = vendor_bill.number
+    
+    @api.multi
+    @api.depends('bill_line_ids.amount_product')
+    def _compute_amount(self):
+        self.ensure_one()
+        self.amount_total = sum(line.amount_product for line in self.bill_line_ids )    
 
 
 
@@ -78,9 +84,9 @@ class ProductInvoiceLine(models.Model):
 
     product_ids = fields.Many2one('abc.products', required = True, string = "Product")
     description = fields.Char(string = "Description", required = True)
-    amount_product = fields.Float(string = "Amount")
-    amount_cost = fields.Float(string = "Cost Price")
-    amount_sale = fields.Float(string = "Sale Price")
+    amount_product = fields.Float(string = "Amount",compute = '_compute_product_amount', store= True)
+    amount_cost = fields.Float(string = "Cost Price", required = True)
+    amount_sale = fields.Float(string = "Sale Price", required = True)
     quantity_product = fields.Float(string = "Quantity")
     purchase_id = fields.Many2one('abc.purchase.bill', string = "Purchase")
 
@@ -91,4 +97,12 @@ class ProductInvoiceLine(models.Model):
         self.description = product.description
         self.amount_cost = product.standard_price
         self.amount_sale = product.list_price
+
+    @api.multi
+    @api.depends('amount_cost','quantity_product')
+    def _compute_product_amount(self):
+        for product in self:
+            product.amount_product = product.amount_cost * product.quantity_product
+            
+
 
