@@ -31,17 +31,23 @@
                         </group>
                         <group>
                             <field name = "date_purchase" />
+                            <field name = "number" />
                         </group>
                     </group>
                     <notebook colSpan = "4">
                         <page string = "Product Detail">
-                            <field name = "product_ids" mode = "tree">
+                        <!-- product_ids is many2many field from product -->
+                            <field name = "bill_line_ids" mode = "tree">
                                 <tree String = "Product detail" editable = "bottom">
-                                    <field name = "name" />
+                                    <field name = "product_ids" string = "Product" />
+                                    <!-- i want my product should be select from dropdown but when i try to add new item its shows a form of product model -->
                                     <field name = "description" />
-                                    <field name = "qty_product" />
-                                    <field name = "standard_price" string = "Cost Price" />
-                                    <field name = "list_price" string = "Sale Price" />
+                                    <!-- product quantity should be increase by increament button -->
+                                    <field name = "amount_cost" />
+                                    <field name = "amount_sale"  /> 
+                                    <field name = "quantity_product" />
+                                    <field name = "amount_product" />
+                                    <!-- i want amount of product hear but there is no ammount field in my ptoduct model -->
                                 </tree>
                             </field>
                         </page>
