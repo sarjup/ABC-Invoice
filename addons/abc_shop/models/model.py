@@ -50,7 +50,7 @@ class Products(models.Model):
     list_price = fields.Float(string = "Sale Price")
     standard_price = fields.Float(string="Cost Price")
     active = fields.Boolean(string = "Active?", default = True)
-
+    
 
 
 class PurchaseInvoice(models.Model):
@@ -82,6 +82,7 @@ class ProductInvoiceLine(models.Model):
     _name = "abc.product.bill.line"
     _description = "Product Purchase invoice line"
 
+
     product_ids = fields.Many2one('abc.products', required = True, string = "Product")
     description = fields.Char(string = "Description", required = True)
     amount_product = fields.Float(string = "Amount",compute = '_compute_product_amount', store= True)
@@ -103,6 +104,34 @@ class ProductInvoiceLine(models.Model):
     def _compute_product_amount(self):
         for product in self:
             product.amount_product = product.amount_cost * product.quantity_product
-            
+           
 
+    @api.model
+    def create(self,vals):
+        res = super(ProductInvoiceLine,self).create(vals)
+        qty = res.quantity_product
+        # if qty != 0:
+        #     print "qty present"
+        # else:
+        #     print "qty not entered for %s"%res.product_ids
+        qty_update = res.product_ids.qty_product+qty
+        val = {
+            'qty_product':qty_update
+            
+        }
+        res.product_ids.write(val)
+        return res
+
+            
+    @api.multi
+    def write(self, vals):
+        qty_old = self.quantity_product
+        super(ProductInvoiceLine,self).write(vals)
+        qty_new = vals['quantity_product']
+        qty_update = self.product_ids.qty_product+qty_new-qty_old
+        val = {
+            'qty_product':qty_update
+        }
+        self.product_ids.write(val)
+        return True
 
