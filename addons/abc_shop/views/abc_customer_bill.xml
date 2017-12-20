@@ -1,0 +1,60 @@
+<odoo>
+    <act_window id = "action_abc_customer_bill"
+        name = "Customer Bill"
+        res_model = "abc.sale.bill"
+        view_mode = "tree,form" />
+
+    <record id = "view_tree_customer_bill" model = "ir.ui.view">
+        <field name = "name">Customer Bills</field>
+        <field name = "model">abc.sale.bill</field>
+        <field name = "arch" type = 'xml'>
+            <tree>
+                <field name = "customer_id" />
+                <field name = "number" />
+                <field name = "date_sale" />
+                <field name = "user_id" />
+                <field name = "amount_total" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_form_customer_bill" model = "ir.ui.view">
+        <field name = "name">Customer Bill Form</field>
+        <field name = "model">abc.sale.bill</field>
+        <field name = "arch" type = "xml">
+            <form string="Invoice">
+                <sheet string = "Invoice">
+                    <group>
+                        <group>
+                            <field string="Customer" name= "customer_id" />
+                            <field name = "user_id" />
+                        </group>
+                        <group>
+                            <field name = "date_sale" 
+                                eval = "(datetime.now()).strftime('%%Y-%%m-%%d')" />
+                            <field readonly = '1' name = "number" />
+                        </group>
+                    </group>
+                    <notebook colSpan = "4">
+                        <page string = "Product Detail">
+                            <field name = "invoice_sale_line_ids" mode = "tree">
+                                <tree String = "Product detail" editable = "bottom">
+                                    <field name = "product_id" string = "Product" />
+                                    <field name = "description" />
+                                    <field name = "amount_cost" />
+                                    <field name = "amount_sale"  /> 
+                                    <field name = "quantity_product" />
+                                    <field name = "amount_product" type = "object" readonly ="1"  />
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                
+                                <field name="amount_total" class="oe_subtotal_footer_separator" readonly = "1" />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

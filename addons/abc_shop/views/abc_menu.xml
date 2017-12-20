@@ -13,6 +13,8 @@
         <!-- side menu customers -->
         <menuitem id = "abc_shop.menu_customer" name = "Customers"
             parent = "abc_shop.menu_sale" action = "action_abc_customers" />
+        <menuitem id = "abc_shop.menu_customer_bill" name = "Customer Bill"
+            parent = "abc_shop.menu_sale" action = "action_abc_customer_bill" />
 
         <!-- side bar purchase menu -->
         <menuitem id = "abc_shop.menu_purchase" name = "Purchase" parent = "abc_shop.main_menu" />

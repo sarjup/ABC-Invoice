@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from datetime import datetime
 
 class Customers(models.Model):
     _name = "abc.customers"
@@ -135,3 +136,91 @@ class ProductInvoiceLine(models.Model):
         self.product_ids.write(val)
         return True
 
+class SaleInvoice(models.Model):
+    _name = "abc.sale.bill"
+    _description = "Product Sale Wizard"
+
+    number = fields.Char(string = 'Invoice No.',compute = '_compute_invoice_number', default = 'Draft')
+    counter = fields.Integer()
+    customer_id = fields.Many2one('abc.customers',string = 'Customer Name', required = True)
+    invoice_sale_line_ids = fields.One2many('abc.product.invoice.line', 'sale_id', string = 'Invoice Line')
+    date_sale = fields.Date(string='Date')
+    user_id = fields.Many2one('res.users',string = 'Sale Person')
+    amount_total = fields.Float(string = 'Total', compute = '_compute_amount', store = True )
+    display_name = fields.Char(compute = '_compute_display_name')
+
+    @api.depends('number','user_id')
+    def _compute_display_name(self):
+        for customer_bill in self:
+            customer_bill.display_name = customer_bill.number
+
+    @api.multi
+    @api.depends('invoice_sale_line_ids.amount_product')
+    def _compute_amount(self):
+        self.ensure_one()
+        self.amount_total = sum(line.amount_product for line in self.invoice_sale_line_ids )
+
+    
+    @api.multi
+    def _compute_invoice_number(self):
+        for inv in self:
+            inv.number = 'INV/'  + str(datetime.now().year)+ '/' + str(inv.id) 
+
+    
+
+
+class ProductInvoiceLine(models.Model):
+    _name = "abc.product.invoice.line"
+    _description = "Product Sale invoice line"
+
+    product_id = fields.Many2one('abc.products', required = True, string = "Product")
+    description = fields.Char(string = "Description", required = True)
+    amount_product = fields.Float(string = "Amount",compute = '_compute_product_amount', store= True)
+    amount_cost = fields.Float(string = "Cost Price", required = True)
+    amount_sale = fields.Float(string = "Sale Price", required = True)
+    quantity_product = fields.Float(string = "Quantity")
+    sale_id = fields.Many2one('abc.sale.bill', string = "Purchase")
+
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        product = self.product_id
+
+        self.description = product.description
+        self.amount_cost = product.standard_price
+        self.amount_sale = product.list_price
+
+    @api.multi
+    @api.depends('amount_cost','quantity_product')
+    def _compute_product_amount(self):
+        for product in self:
+            product.amount_product = product.amount_sale * product.quantity_product
+           
+
+    @api.model
+    def create(self,vals):
+        res = super(ProductInvoiceLine,self).create(vals)
+        qty = res.quantity_product
+        # if qty != 0:
+        #     print "qty present"
+        # else:
+        #     print "qty not entered for %s"%res.product_ids
+        qty_update = res.product_id.qty_product-qty
+        val = {
+            'qty_product':qty_update
+            
+        }
+        res.product_id.write(val)
+        return res
+
+            
+    @api.multi
+    def write(self, vals):
+        qty_old = self.quantity_product
+        super(ProductInvoiceLine,self).write(vals)
+        qty_new = vals['quantity_product']
+        qty_update = self.product_id.qty_product-qty_new+qty_old
+        val = {
+            'qty_product':qty_update
+        }
+        self.product_id.write(val)
+        return True
